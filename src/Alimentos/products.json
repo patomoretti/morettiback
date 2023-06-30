@@ -1,0 +1,18 @@
+[
+	{
+		"title": "Alpiste",
+		"id": 11,
+		"description": "Primera calidad ventilado se vende fraccionado o por bolsa de 25 kg bajo pedido.",
+		"price": "$1000",
+		"thumbnail": "../images/alimentos/alpiste-1184x1288.jpg",
+		"stock": 10
+	},
+	{
+		"title": "Mezcla canarios",
+		"id": 12,
+		"description": "Mezcla premium para canarios de primera calidad, se vende fraccionada o por bolsa de 25 kg bajo pedido.",
+		"price": "$1800",
+		"thumbnail": "../images/alimentos/mezcla-canarios-1184x1241.jpg",
+		"stock": 10
+	}
+]
