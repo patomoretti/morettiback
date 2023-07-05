@@ -11,6 +11,7 @@ class ProductManager {
 
     constructor() {
         this.products = [];
+        this.path = productosJson;
     };
 
     getProducts() {
@@ -36,7 +37,7 @@ class ProductManager {
             stock
         };
 
-        this.products.push(newProduct);
+        this.path.push(newProduct);
         console.log("Nuevo Producto: ", newProduct);
 
     };
@@ -55,8 +56,8 @@ class ProductManager {
 
     updateProduct(id) {
         const updateId = productosJson.findIndex(productos => productos.id === id);
-        const updated = fs.writeFileSync('./products.json', JSON.stringify(productosJson, null, '\t'));
         if (updateId) { 
+            const updated = fs.writeFileSync('./products.json', JSON.stringify(productosJson, null, '\t'));
             console.log("Archivo Actualizado", updated);
         } else {
             console.log("Error al actualizar el archivo");
@@ -85,11 +86,11 @@ patoManager.addProduct("Prueba 2", "Aca esta la descripcion", 3000, "img", 500, 
 patoManager.addProduct("Prueba 3", "Descripcion prueba 3", 2000, "img", 300, 100);
 
 //Leer por ID
-patoManager.getProductById(2);
-patoManager.getProductById(6);
+patoManager.getProductById(12);
+patoManager.getProductById(50);
 
 //Actualizando Productos
-patoManager.updateProduct("Prueba 3", {id:11}, "Descripcion prueba 3", 2000, "img", 300, 100);
+patoManager.updateProduct("Prueba 3", "Descripcion prueba 3", 2000, "img", 300, 100);
 
 //Eliminar un ID
 patoManager.deleteProduct(11);

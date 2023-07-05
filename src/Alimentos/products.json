@@ -14,5 +14,23 @@
 		"price": "$1800",
 		"thumbnail": "../images/alimentos/mezcla-canarios-1184x1241.jpg",
 		"stock": 10
+	},
+	{
+		"title": "Prueba 2",
+		"id": 13,
+		"description": "Aca esta la descripcion",
+		"price": 3000,
+		"thumbnail": "img",
+		"code": 500,
+		"stock": 450
+	},
+	{
+		"title": "Prueba 3",
+		"id": 14,
+		"description": "Descripcion prueba 3",
+		"price": 2000,
+		"thumbnail": "img",
+		"code": 300,
+		"stock": 100
 	}
 ]
