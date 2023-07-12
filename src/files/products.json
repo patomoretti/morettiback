@@ -1,0 +1,68 @@
+[
+	{
+		"title": "Alpiste",
+		"id": 11,
+		"description": "Primera calidad ventilado se vende fraccionado o por bolsa de 25 kg bajo pedido.",
+		"price": 1000,
+		"thumbnail": "../images/alimentos/alpiste-1184x1288.jpg",
+		"code": 1000,
+		"stock": 5,
+		"status": true,
+		"category": "alimento"
+	},
+	{
+		"title": "Mezcla canarios",
+		"id": 12,
+		"description": "Mezcla premium para canarios de primera calidad, se vende fraccionada o por bolsa de 25 kg bajo pedido.",
+		"price": 2000,
+		"thumbnail": "../images/alimentos/mezcla-canarios-1184x1241.jpg",
+		"code": 700,
+		"stock": 10,
+		"status": true,
+		"category": "alimento"
+	},
+	{
+		"title": "Prueba 2",
+		"id": 13,
+		"description": "Aca esta la descripcion",
+		"price": 1000,
+		"thumbnail": "img",
+		"code": 500,
+		"stock": 450,
+		"status": true,
+		"category": "alimento"
+	},
+	{
+		"title": "Prueba 3",
+		"id": 14,
+		"description": "Descripcion prueba 3",
+		"price": 2000,
+		"thumbnail": "img",
+		"code": 125,
+		"stock": 100,
+		"status": true,
+		"category": "alimento"
+	},
+	{
+		"title": "Mijo",
+		"id": 15,
+		"description": "Primera calidad ventilado se vende fraccionado o por bolsa de 25 kg bajo pedido.",
+		"price": 500,
+		"thumbnail": "../images/alimentos/mijo-1184x1280.jpg",
+		"code": 360,
+		"stock": 100,
+		"status": true,
+		"category": "alimento"
+	},
+	{
+		"title": "Girasol confitero",
+		"id": 16,
+		"description": "Primera calidad se vende fraccionado o por bolsa de 25 kg bajo pedido.",
+		"price": 1800,
+		"thumbnail": "../images/alimentos/girasol-confitero-1184x1251.jpg",
+		"code": 587,
+		"stock": 100,
+		"status": true,
+		"category": "alimento"
+	}
+]
