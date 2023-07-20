@@ -1,0 +1,40 @@
+<div class="realtimeproducts">
+    <h4>Real Time Products</h4>
+
+    <form method="post" action="/realtimeproducts">
+
+        <input type="text" placeholder="Alimento" name="title"/>
+        <br/><br/>
+
+        <input type="text" placeholder="Descripcion" name="description"/>
+        <br/><br/>
+
+        <input type="text" placeholder="Stock" name="stock"/>
+        <br/><br/>
+
+        <input type="text" placeholder="Codigo" name="code"/>
+        <br/><br/>
+
+        <input type="text" placeholder="Precio" name="price"/>
+        <br/><br/>
+
+        <button type="submit">Agregar Producto</button>
+
+    </form>
+
+    <div class="productsadd">
+        <h3>Productos agregados</h3>
+        <div method="get" action="/realtimeproducts">
+            <h5>Nombre: {{title}}</h5>
+            <h5>Descripcion: {{description}}</h5>
+            <h5>Stock: {{stock}}</h5>
+            <h5>Codigo: {{code}}</h5>
+            <h5>Precio: {{price}}</h5>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realTimeProducts.js"></script>
