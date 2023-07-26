@@ -6,6 +6,7 @@ import { __dirname } from "./utils.js";
 import path from "path";
 import { Server } from "socket.io";
 import { viewsRouter } from "./routes/views.routes.js";
+import { ProductManager } from "./dao/ProductManager.js";
 
 
 const port = 8080;
@@ -35,8 +36,7 @@ socketServer.on("connection", (socketConnected)=>{
     //recibir datos del cliente
     socketConnected.on("mensaje", (data)=>{
         console.log(`Ubicacion del usuario: ${data}`);
-    });
-
+    })
     
 });
 

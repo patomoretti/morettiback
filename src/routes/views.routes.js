@@ -8,20 +8,22 @@ const jsonFood = new ProductManager('products.json');
 
 //leyendo productos JSON
 const productos = fs.readFileSync('./files/products.json', 'utf-8');
-const productosParse = JSON.stringify(productos);
+const productosParse = JSON.parse(productos);
 
 
 
 router.get("/", (req,res)=>{
     res.render("home");
+    res.send(productosParse);
 });
 
 
-const comida = [productosParse];
+const comida = [];
 router.post("/realtimeproducts",(req,res)=>{
     const food = req.body;
     comida.push(food);
-    res.send("Producto Agregado");
+    res.send(food);
+
 });
 
 router.get("/realtimeproducts", (req,res)=>{
