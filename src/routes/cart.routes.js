@@ -2,14 +2,15 @@ import {Router} from "express";
 import {CartManager} from "../dao/CartManager.js";
 import {ProductManager} from "../dao/ProductManager.js";
 import fs from "fs";
+import { cartsModel } from "../dao/models/carts.model.js";
 
 const router = Router();
 const cartService = new CartManager("carrito.json");
 const productService = new ProductManager("products.json");
 
 //leyendo productos JSON
-const productos = fs.readFileSync('./files/products.json', 'utf-8');
-const productosParse = JSON.parse(productos);
+// const productos = fs.readFileSync('./files/products.json', 'utf-8');
+// const productosParse = JSON.parse(productos);
 
 router.post("/", async (req,res)=>{ 
     try {
