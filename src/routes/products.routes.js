@@ -1,12 +1,11 @@
 import {Router} from "express";
 // import fs from "fs";
-import {ProductManager} from "../dao/ProductManager.js";
+// import {ProductManager} from "../dao/ProductManager.js";
 import { productsModel } from "../dao/models/products.model.js";
-import { pid } from "process";
 
 
 const router = Router();
-const productService = new ProductManager('products.json');
+// const productService = new ProductManager('products.json');
 
 const validateFields = (req,res,next)=>{
     const productInfo = req.body;
@@ -25,11 +24,20 @@ const validateFields = (req,res,next)=>{
 //http://localhost:8080/api/products
 router.get("/", async(req,res)=>{
     try {
-        const productoo = await productsModel.find();
+        const productoo = await productsModel.find({},{_id:1,title:1,id:1,price:1,category:1}).sort({price:1});
+        const productoPaginate = async()=>{
+            let comida = await productsModel.paginate(
+                {price:{$gt:10}},
+                {limit:5,page:1}
+            );
+            console.log("Paginacion", comida);
+        };
+        productoPaginate();
         res.json({status:"success", data:productoo});
     } catch (error) {
-        res.json({status:"error", message:error.message});
+        res.json({status:"error", message:"Error al obtener los productos"});
     }
+    
 });
 
 //agregando nuevo producto //localhost:8080/api/products

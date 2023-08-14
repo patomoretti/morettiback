@@ -7,8 +7,7 @@ import { __dirname } from "./utils.js";
 import path from "path";
 import { Server } from "socket.io";
 import { viewsRouter } from "./routes/views.routes.js";
-import { ProductManager } from "./dao/ProductManager.js";
-
+// import { ProductManager } from "./dao/ProductManager.js";
 
 
 const port = process.env.PORT || 8080;
@@ -39,12 +38,18 @@ let messages=[];
 socketServer.on("connection", (socketConnected)=>{
     console.log(`Nuevo cliente conectado ${socketConnected.id}`);
 
-    //recibir datos del cliente
+    //Ubicacion del usuario
     socketConnected.on("mensaje", (data)=>{
         console.log(`Ubicacion del usuario: ${data}`);
     })
 
-    //chat messages
+    // //Products
+    // socketConnected.emit("ListaProductos", (ProductList)=>{
+    //     console.log("Lista visualizandose en Products", ProductList);
+    // });
+
+
+    //Chat messages
     socketConnected.on("authenticated", (msg)=>{
         socketConnected.emit("messageHistory", messages);
         socketConnected.broadcast.emit("newUser", msg);
@@ -60,7 +65,7 @@ socketServer.on("connection", (socketConnected)=>{
 
 //Rutas
 app.use("/api/products", productsRouter);
-app.use("api/carts", cartRouter);
+app.use("/api/carts", cartRouter);
 app.use(viewsRouter);
 
 

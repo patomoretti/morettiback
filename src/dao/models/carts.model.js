@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const cartsCollection = "carts";
 
@@ -9,8 +9,8 @@ const cartsSchema = new mongoose.Schema({
         required:true
     },
     id:{
-        type:Number,
-        required:true
+        type: Number,
+        required:true,
     },
     description:{
         type: String,
@@ -26,6 +26,6 @@ const cartsSchema = new mongoose.Schema({
     },
 });
 
-
+cartsSchema.plugin(mongoosePaginate);
 
 export const cartsModel = mongoose.model(cartsCollection,cartsSchema);

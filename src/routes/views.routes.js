@@ -1,6 +1,6 @@
 import {Router} from "express";
 // import fs from "fs";
-import { ProductManager } from "../dao/ProductManager.js";
+// import { ProductManager } from "../dao/ProductManager.js";
 import { messageModel } from "../dao/models/messages.model.js";
 import { productsModel } from "../dao/models/products.model.js";
 
@@ -12,7 +12,6 @@ const router = Router();
 router.get("/", async (req,res)=>{
     res.render("home");
     const findProduct = await productsModel.find();
-    res.send(findProduct);
 });
 
 //localhost:8080/realtimeproducts
@@ -21,7 +20,6 @@ router.post("/realtimeproducts",(req,res)=>{
     const food = req.body;
     comida.push(food);
     res.send(food);
-
 });
 router.get("/realtimeproducts", (req,res)=>{
     res.render("realTimeProducts");
@@ -39,6 +37,17 @@ router.post("/chatMessages", async (req,res)=>{
     } catch (error) {
         console.log(error.message);
         res.json({status:"error", message:"Hubo un error al guardar el mensaje en Mongo"});
+    }
+});
+
+
+//localhost:8080/products
+router.get("/products", async (req,res)=>{
+    try {
+        const products = await productsModel.find();
+        res.json({status:"success", data:products});
+    } catch (error) {
+        res.json({status:"error", message:error.message});
     }
 });
 

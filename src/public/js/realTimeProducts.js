@@ -32,9 +32,9 @@ btnDel.addEventListener('click',()=>{
     socketClient.emit("productDelete", idDelete.value);
 });
 
-socketClient.on("arrayProductos", (dataServer)=>{
+socketClient.on("arrayProductos", (arrayProd)=>{
     let elementContainer="productsadd";
-    dataServer.forEach(({title,description,code,price,stock}) => {
+    arrayProd.forEach(({title,description,code,price,stock}) => {
         elementContainer=elementContainer+
         `<ol>
         <li>Nombre: ${title} </li>

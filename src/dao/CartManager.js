@@ -1,5 +1,5 @@
 import {__dirname} from "../utils.js";
-import path from "path";
+// import path from "path";
 import fs from "fs";
 import { cartsModel } from "./models/carts.model.js";
 
@@ -35,17 +35,22 @@ export class CartManager{
             if(this.fileExist()){
                 // const content = await fs.promises.readFile(this.path, "utf-8");
                 // const carts = JSON.parse(content);
-                // let nuevaId=1;
-                // if (carts.length>0) {
-                //     nuevaId = carts[carts.length-1].id+1; 
-                // }
+                
+                const carts = await cartsModel.insertMany();
+                let nuevaId=30;
+                if (carts.length>0) {
+                    nuevaId = carts[carts.length-1].id+1; 
+                }
                 const newCart = {
                     id:nuevaId,
+                    title,
+                    description,
+                    price,
+                    code,
                     products:[]
                 };
                 carts.push(newCart);
                 // await fs.promises.writeFile(this.path,JSON.stringify(carts, null, '\t'));
-                await cartsModel.insertOne();
                 return newCart;
             }else{
                 console.log("No es posible esta operacion");
