@@ -67,9 +67,10 @@ router.get("/:pid", async (req,res)=>{
 //localhost:8080/api/products/:pid   modificando producto existente 
 router.put("/:pid", async (req,res)=>{
     try {
+        const idT = req.body;
         const pId = parseInt(req.params.pid);
-        const productCreate = await productsModel.updateOne({id:pId},{$set:{title,description,price,code,stock,category}});
-        res.json({status:"success", data:productCreate, message:`El ID ${id} ha sido modificado`});
+        const productModif = await productsModel.updateOne({id:pId},{$set:{title:idT.title,description:idT.description,price:idT.price,stock:idT.stock,code:idT.code}});
+        res.json({status:"success", data:productModif, message:"El producto ha sido modificado"});
     } catch (error) {
         res.json({status:"error", message:error.message});
     }
