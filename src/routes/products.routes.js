@@ -21,7 +21,7 @@ const validateFields = (req,res,next)=>{
 // const productosParse = JSON.parse(productos);
 
 
-//http://localhost:8080/api/products
+//localhost:8080/api/products   obteniendo todos los productos
 router.get("/", async(req,res)=>{
     try {
         const productoo = await productsModel.find({},{_id:1,title:1,id:1,price:1,category:1}).sort({price:1});
@@ -40,7 +40,7 @@ router.get("/", async(req,res)=>{
     
 });
 
-//agregando nuevo producto //localhost:8080/api/products
+//localhost:8080/api/products   agregando nuevo producto 
 router.post ("/", async(req,res)=>{
     try {
         const productInfo = req.body;
@@ -52,20 +52,19 @@ router.post ("/", async(req,res)=>{
 });
 
 
-//localhost:8080/api/products/:pid 
-router.get("/:pid", (req,res)=>{
+//localhost:8080/api/products/:pid   obteniendo producto por ID
+router.get("/:pid", async (req,res)=>{
     try {
         const pId = parseInt(req.params.pid);
-        const prodFind = productsModel.findOne({id:pId});
+        const prodFind = await productsModel.findOne({id:pId});
         res.json({status:"success", message:prodFind});
     } catch (error) {
         res.json({status:"error", message:error.message});
     }
 });
-// elm=>elm.id === pId
 
 
-//modificando producto existente //localhost:8080/api/products/:pid
+//localhost:8080/api/products/:pid   modificando producto existente 
 router.put("/:pid", async (req,res)=>{
     try {
         const pId = parseInt(req.params.pid);
@@ -76,7 +75,7 @@ router.put("/:pid", async (req,res)=>{
     }
 });
 
-//Eliminando un producto //localhost:8080/api/products/:pid
+//localhost:8080/api/products/:pid   Eliminando un producto 
 router.delete("/:pid", async (req,res)=>{
     try {
         const pId = parseInt(req.params.pid);

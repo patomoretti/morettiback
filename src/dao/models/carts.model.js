@@ -16,14 +16,9 @@ const cartsSchema = new mongoose.Schema({
         type: String,
         required:true,
     },
-    price:{
-        type: String,
-        required:true,
-    },
-    code:{
-        type: String,
-        required:true,
-    },
+    price:Number,
+    code:Number,
+    stock:Number,
 });
 
 cartsSchema.plugin(mongoosePaginate);

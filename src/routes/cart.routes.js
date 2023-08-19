@@ -1,33 +1,31 @@
 import {Router} from "express";
-// import {CartManager} from "../dao/CartManager.js";
-// import {ProductManager} from "../dao/ProductManager.js";
 // import fs from "fs";
 import { cartsModel } from "../dao/models/carts.model.js";
 import { productsModel } from "../dao/models/products.model.js";
 
 const router = Router();
-// const cartService = new CartManager("carrito.json");
-// const productService = new ProductManager("products.json");
 
 //leyendo productos JSON
 // const productos = fs.readFileSync('./files/products.json', 'utf-8');
 // const productosParse = JSON.parse(productos);
 
 
-// localhost:8080/api/carts
-router.post("/", async (req,res)=>{ 
+// localhost:8080/api/carts   Agrego producto al carrito
+router.post("/", async (req,res)=>{
     try {
-        const cartCreate = await cartsModel.insertOne({id});
-        res.json({status:"success", data:cartCreate});
+        const id = req.body;
+        const prodFind = await productsModel.find(id);
+        const cartCreate = await cartsModel.insertMany(prodFind);
+        res.json({status:"success", data:cartCreate, message:"Producto Agregado"});
     } catch (error) {
-        res.json({status:"error", message:"No se pudo agregar el producto al carrito"});
+        res.json({status:"error", message:error.message});
     }
 });
 
-// localhost:8080/api/carts/:cid
+// localhost:8080/api/carts/:cid   Veo id del carrito
 router.get("/:cid", async (req,res)=>{
-    const cId = req.params.cid;
-    const prodFind = await cartsModel.findById(cId);
+    const cId = parseInt(req.params.cid);
+    const prodFind = await cartsModel.findOne({id:cId});
     if (!prodFind) {
         res.send("El producto que buscas no existe");
     } else {
@@ -35,16 +33,27 @@ router.get("/:cid", async (req,res)=>{
     }
 });
 
+// localhost:8080/api/carts/carts/:cid  Veo todos los productos agregados al carrito
+router.get("/carts/:cid", async (req,res)=>{
+    try {
+        const idP = req.body;
+        const cart = await cartsModel.find(idP);
+        res.json({status:"success", data:cart, message:"Estos son todos los productos del carrito"});
+    } catch (error){
+        res.json({status:"error", message:error.message});
+    }
+
+});
+
+
 // localhost:8080/api/carts/:cid/product/:pid
 router.post("/:cid/product/:pid", async(req,res)=>{
     try {
-        const cartId = req.params.cid;
-        const productId = req.params.pid;
-        const cart = await cartsModel.findById(cartId);
-        const productoo = await productsModel.findById(productId);
-        // const productsCarrito = cart.products;
-        // const productooCarrito = productoo.products;
-        if (!cart || !productoo) {
+        const cartId = parseInt(req.params.cid);
+        const productId = parseInt(req.params.pid);
+        const cart = await cartsModel.findOne(cartId);
+        const producto = await productsModel.findOne(productId);
+        if (!cart || !producto) {
             res.json({status:"error", message:error.message});
         } else {
             const idProduct = this.path.find((products) => { return products.id === id });
@@ -56,29 +65,54 @@ router.post("/:cid/product/:pid", async(req,res)=>{
     }
 });
 
-// localhost:8080/api/carts/api/carts/:cid/products/:pid
-router.delete("/api/carts/:cid/products/:pid", (req,res)=>{
-    try {
-        const cartId = req.params.cid;
-        const productId = req.params.pid;
+
+// localhost:8080/api/carts/api/carts/:cid/products/:pid  Elimina el producto seleccionado
+router.delete("/api/carts/:cid/products/:pid", async (req,res)=>{
+    try { 
+        const cartId = parseInt(req.params.cid);
+        const productId = parseInt(req.params.pid);
+        await cartsModel.deleteOne({id:[cartId,productId]});
+        res.json({status:"success", message:"Producto Eliminado"});
     } catch (error) {
         res.json({status:"error", message:error.message});
     }
 });
 
-// localhost:8080/api/carts/api/carts/:cid
-router.delete("/api/carts/:cid", (req,res)=>{
-
+// localhost:8080/api/carts/api/carts/:cid  Elimina todos los productos del carrito
+router.delete("/api/carts/:cid", async (req,res)=>{
+    try {   
+        const cartId = parseInt(req.params.cid);
+        const prodDelete = await cartsModel.deleteMany({id:{$exists:true}});
+        res.json({status:"success", data: prodDelete, message:"Todos los productos fueron eliminados"});
+    } catch (error) {
+        res.json({status:"error", message:error.message});
+    }
 });
 
-// localhost:8080/api/carts/api/carts/:cid/products/:pid
-router.put("/api/carts/:cid/products/:pid", (req,res)=>{
 
+// localhost:8080/api/carts/api/carts/:cid/products/:pid   
+router.put("/api/carts/:cid/products/:pid", async (req,res)=>{
+    try {
+        const idT = req.body;
+        const cartId = parseInt(req.params.cid);
+        const productId = parseInt(req.params.pid);
+        const prodModif = await cartsModel.updateOne({id:[cartId,productId]},{$set:{title:idT.title,description:idT.description,price:idT.price,stock:idT.stock,code:idT.code}});
+        res.json({status:"success", data:prodModif, message:"Varios productos han sido modificados"});
+    } catch (error) {
+        res.json({status:"error", message:error.message});
+    }
 });
 
-// localhost:8080/api/carts/api/carts/:cid
-router.put("/api/carts/:cid", (req,res)=>{
-
+// localhost:8080/api/carts/api/carts/:cid   Modifico un producto del carrito
+router.put("/api/carts/:cid", async (req,res)=>{
+    try {
+        const idT = req.body;
+        const cartId = parseInt(req.params.cid);
+        const prodModif = await cartsModel.updateOne({id:cartId},{$set:{title:idT.title,description:idT.description,price:idT.price,stock:idT.stock,code:idT.code}});
+        res.json({status:"success", data:prodModif, message:"Product Cart ha sido Actualizado"});
+    } catch (error) {
+        res.json({status:"error", message:error.message});
+    }
 });
 
 
