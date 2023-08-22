@@ -1,0 +1,16 @@
+<h1>Pagina de perfil</h1>
+
+<h2>Bienvenido, {{email}}</h2>
+
+{{#if isAdmin}}
+ <h3>Perfil</h3>
+    {{#each}}
+        <p>Nombre: {{first_name}}</p>
+        <p>Apellido: {{last_name}}</p>
+        <p>Edad: {{age}}</p>
+    {{/each}}
+{{else}}
+    <h3>No tienes permiso para ver este contenido. Tu rol es User</h3>
+{{/if}}
+
+

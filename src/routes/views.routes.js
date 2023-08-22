@@ -8,7 +8,7 @@ const router = Router();
 // const jsonFood = new ProductManager();
 
 
-//localhost:8080
+//localhost:8080  Home
 router.get("/", async (req,res)=>{
     res.render("home");
     const findProduct = await productsModel.find();
@@ -51,5 +51,25 @@ router.get("/products", async (req,res)=>{
     }
 });
 
+//Carrito
+router.get("/carts",(req,res)=>{
+    res.render("carts");
+});
+
+//LOGIN, SIGNUP, PROFILE, ETC
+//localhost:8080/signup
+router.get("/signup",(req,res)=>{
+    res.render("signup");
+});
+//localhost:8080/login
+router.get("/login",(req,res)=>{
+    res.render("login");
+});
+//localhost:8080/perfil
+router.get("/profile",(req,res)=>{
+    res.render("profile");
+    const infoProfile = req.body;
+    
+});
 
 export {router as viewsRouter};
