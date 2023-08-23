@@ -2,6 +2,7 @@ import {Router} from "express";
 // import fs from "fs";
 import { cartsModel } from "../dao/models/carts.model.js";
 import { productsModel } from "../dao/models/products.model.js";
+import {v4 as uuidv4} from 'uuid';
 
 const router = Router();
 
@@ -36,9 +37,10 @@ router.get("/:cid", async (req,res)=>{
 // localhost:8080/api/carts/carts/:cid  Veo todos los productos agregados al carrito
 router.get("/carts/:cid", async (req,res)=>{
     try {
-        const idP = req.body;
-        const cart = await cartsModel.find(idP);
-        res.json({status:"success", data:cart, message:"Estos son todos los productos del carrito"});
+        // const idP = req.body;
+        const cart = await cartsModel.find({},{title:1,description:1,price:1,stock:1,code:1,id:1,_id:0});
+        let myuuid = uuidv4();
+        res.json({status:"success", data:(['ID del Carrito: ' + myuuid,cart]), message:"Estos son todos los productos del carrito"});
     } catch (error){
         res.json({status:"error", message:error.message});
     }
