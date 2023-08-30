@@ -11,6 +11,8 @@ import { sessionsRouter } from "./routes/sessions.routes.js";
 import MongoStore from "connect-mongo";
 import session from "express-session";
 import { config } from "./config/config.js";
+import { initializePassport } from "./config/passportConfig.js";
+import passport from "passport";
 
 
 const port = config.server.port;
@@ -28,6 +30,11 @@ app.use(session({
     resave: true,
     saveUninitialized:true
 }));
+
+//configuracion de passport
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 //middlewares
 app.use(express.static(path.join(__dirname, "/public")));

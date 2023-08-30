@@ -1,6 +1,7 @@
 import {Router} from "express";
 // import fs from "fs";
 // import { ProductManager } from "../dao/ProductManager.js";
+import { checkUserAuthenticated, showLoginView } from "../middlewares/auth.js";
 import { messageModel } from "../dao/models/messages.model.js";
 import { productsModel } from "../dao/models/products.model.js";
 
@@ -58,18 +59,22 @@ router.get("/carts",(req,res)=>{
 
 //LOGIN, SIGNUP, PROFILE, ETC
 //localhost:8080/signup
-router.get("/signup",(req,res)=>{
+router.get("/signup", showLoginView ,(req,res)=>{
     res.render("signup");
 });
 //localhost:8080/login
-router.get("/login",(req,res)=>{
+router.get("/login", showLoginView, (req,res)=>{
     res.render("login");
 });
 //localhost:8080/perfil
-router.get("/profile",(req,res)=>{
-    res.render("profile");
+router.get("/profile", checkUserAuthenticated ,(req,res)=>{
+    res.render("profile",{user: req.session.userInfo});
     const infoProfile = req.body;
-    
+    console.log(req.session);
+});
+//localhost:8080/cambio-password
+router.get("/cambio-password", (req,res)=>{
+    res.render("changePassword");
 });
 
 export {router as viewsRouter};
