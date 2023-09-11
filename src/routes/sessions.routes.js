@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { usersService } from "../dao/index.js";
-// import { usersModel } from "../dao/models/users.model.js";
+import { usersModel } from "../dao/models/users.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import passport from "passport";
+import { generateToken } from "../utils.js";
+import CookieParser from "cookie-parser";
 
 const router = Router();
 
@@ -19,11 +21,30 @@ router.get("/fail-signup", (req,res)=>{
     res.render("signup",{error:"No se pudo registrar el usuario"});
 });
 
+router.get("/login")
 //localhost:8080/api/sessions/login
 router.post("/login", passport.authenticate("loginStrategy", {
     failureRedirect:"/api/session/fail-login"
-}), (req,res)=>{
-    res.redirect("/perfil")
+}), async (req,res)=>{
+    const loginForm = req.body;
+    const user = await usersModel.find({email,password});
+    if (user) {
+        if(user.password===loginForm.password){
+            const token = generateToken({email:loginForm});
+            res.cookie("cookie-token", token, {httpOnly:true}).json({status:"success", message: "login exitoso"});
+        }else{
+            res.json({status:"error", message:"credenciales invalidas"});
+        }
+    } else {
+        res.json({status:"error", message:"usuario no registrado"});
+    }
+    res.json({status:"success", message:"peticion recibida"});
+});
+
+//localhost:8080/api/sessions/profile
+router.get("/profile", (req,res)=>{
+    console.log(req.cookies['cookie-token']);
+    res.json({message:"peticion recibida"});
 });
 
 //localhost:8080/api/sessions/fail-login
@@ -31,6 +52,10 @@ router.get("/fail-login", (req,res)=>{
     res.render("login", {error:"Credenciales invalidas"});
 });
 
+//localhost:8080/api/sessions/current
+router.get("/current", (req,res)=>{
+    
+});
 
 
 

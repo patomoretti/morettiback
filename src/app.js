@@ -13,6 +13,7 @@ import session from "express-session";
 import { config } from "./config/config.js";
 import { initializePassport } from "./config/passportConfig.js";
 import passport from "passport";
+import cookieParser from "cookie-parser";
 
 
 const port = config.server.port;
@@ -40,6 +41,7 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 //configuracion handlebars
 app.engine('.hbs', engine({extname: '.hbs'}));
