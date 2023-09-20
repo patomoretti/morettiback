@@ -21,7 +21,7 @@ const app = express();
 
 //guardardando servidor http en una variable
 const httpServer = app.listen(port,()=>console.log(`Servidor activo en el puerto ${port}`));
-
+ 
 //configuracion de sesiones
 app.use(session({
     store: MongoStore.create({

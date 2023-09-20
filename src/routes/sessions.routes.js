@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { usersService } from "../dao/index.js";
+import { usersDao } from "../dao/index.js";
 import { usersModel } from "../dao/models/users.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import passport from "passport";
@@ -138,12 +138,12 @@ router.post("/logout",(req,res)=>{
 router.post("/changePass", async (req,res)=>{
     try {
      const form = req.body;
-     const user = await usersService.getByEmail(form.email);
+     const user = await usersDao.getByEmail(form.email);
      if(!user){
          return res.render("changePassword", {error: "No es posible cambiar la contraseña"});
      }
      user.password = createHash(form.newPassword);
-     await usersService.update(user._id, user);
+     await usersDao.update(user._id, user);
      return res.render("login", {message:"Contraseña restaurada"})
     } catch (error) {
      res.render("changePassword", {error:error.message});
