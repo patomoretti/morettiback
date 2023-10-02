@@ -12,8 +12,8 @@ export const createHash = (password)=>{
 };
 
 //validando la contraseña
-export const isValidPassword = (userDB, password)=>{
-    return bcrypt.compareSync(password, userDB.password);
+export const isValidPassword = (user, password)=>{
+    return bcrypt.compareSync(password, user.password);
 };
 
 

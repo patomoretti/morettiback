@@ -36,5 +36,8 @@ export class CartController{
         res.json({status:"success", data:result, message:"Producto eliminado"});
     };
 
+    static endPurchase(req,res){
 
+    };
+ 
 };  

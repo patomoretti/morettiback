@@ -1,5 +1,4 @@
 import express from "express";
-import { connectDB} from "./config/dbConnection.js";
 import {engine} from "express-handlebars";
 import { __dirname } from "./utils.js";
 import path from "path";
@@ -8,6 +7,8 @@ import { viewsRouter } from "./routes/views.routes.js";
 import { productsRouter } from "./routes/products.routes.js";
 import { cartRouter } from "./routes/cart.routes.js";
 import { sessionsRouter } from "./routes/sessions.routes.js";
+import { ordersRouter } from "./routes/order.routes.js";
+import { businessRouter } from "./routes/business.routes.js";
 import MongoStore from "connect-mongo";
 import session from "express-session";
 import { config } from "./config/config.js";
@@ -52,8 +53,6 @@ app.set('views', path.join(__dirname,"/views"));
 //servidor websocket
 const socketServer = new Server(httpServer);
 
-//MONGO
-connectDB();
 
 let messages=[];
 //Canal de comunicacion
@@ -82,7 +81,9 @@ socketServer.on("connection", (socketConnected)=>{
 //Rutas
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
-app.use("/api/sessions",sessionsRouter)
+app.use("/api/sessions",sessionsRouter);
+app.use("/api/orders", ordersRouter);
+app.use("/api/business", businessRouter);
 app.use(viewsRouter);
 
 

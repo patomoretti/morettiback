@@ -2,7 +2,7 @@ import { usersModel } from "../models/users.model.js";
 
 export class UsersMongo{
     constructor(){
-        this.model = usersModel;
+        this.model = usersModel();
     };
 
     async save(user){
@@ -27,9 +27,9 @@ export class UsersMongo{
         }
     };
 
-    async getByEmail(userEmail){
+    async getByEmail(email){
         try {
-            const user=await this.model.findOne({email:userEmail});
+            const user = await usersModel.find({email:email});
             if(user){
                 return user;
             }else{

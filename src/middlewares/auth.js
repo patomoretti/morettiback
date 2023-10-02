@@ -31,3 +31,23 @@ export const authenticate = (strategy)=>{
         })(req,res,next);
     }
 };
+
+
+//role admin
+export const checkRole = (roles)=>{ 
+    return(req,res,next)=>{
+        if(roles.includes(req.user.role)){
+            next();
+        } else{
+            res.json({status:"success", message:"No tienes permiso para este recurso"})
+        };
+    }
+};
+
+export const checkAuthenticated = (req,res,next)=>{
+    if(req.user){
+        next();
+    }else{
+        res.json({status:"error", message:"No tienes permiso para este recurso"})
+    }
+}

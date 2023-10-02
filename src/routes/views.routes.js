@@ -2,8 +2,8 @@ import {Router} from "express";
 // import fs from "fs";
 // import { ProductManager } from "../dao/ProductManager.js";
 import { checkUserAuthenticated, showLoginView } from "../middlewares/auth.js";
-import { messageModel } from "../dao/models/messages.model.js";
-import { productsModel } from "../dao/models/products.model.js";
+import { messageModel } from "../dao/mongo/models/messages.model.js";
+import { productsModel } from "../dao/mongo/models/products.model.js";
 
 const router = Router();
 // const jsonFood = new ProductManager();
@@ -33,7 +33,7 @@ router.get("/chatMessages",(req,res)=>{
 });
 router.post("/chatMessages", async (req,res)=>{
     try {
-        const messageSave = await messageModel.insertMany({user,message});
+        const messageSave = await messageModel.insertMany(user,message);
         res.json({status:"success", data:messageSave, message:"Chat subido a Mongo"});
     } catch (error) {
         console.log(error.message);

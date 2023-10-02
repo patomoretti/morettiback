@@ -1,9 +1,10 @@
 import {Router} from "express";
 // import fs from "fs";
-import { cartsModel } from "../dao/models/carts.model.js";
-import { productsModel } from "../dao/models/products.model.js";
+import { cartsModel } from "../dao/mongo/models/carts.model.js";
+import { productsModel } from "../dao/mongo/models/products.model.js";
 // import {v4 as uuidv4} from 'uuid';
 import { CartController } from "../controllers/cart.controller.js";
+import { TicketsController } from "../controllers/ticket.controller.js";
 
 const router = Router();
 
@@ -20,7 +21,8 @@ router.post("/", CartController.createCart);
 router.get("/:cid", CartController.getProductById);
 // localhost:8080/api/carts/api/carts/:cid/products/:pid  Elimina el producto seleccionado
 router.delete("/api/carts/:cid/products/:pid", CartController.deleteCartId);
-
+// localhost:8080/api/carts  finalizar proceso de compra con un ticket
+router.post("/:cid/purchase", TicketsController.createTicket);
 
 
 

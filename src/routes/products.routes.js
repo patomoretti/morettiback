@@ -1,8 +1,9 @@
 import {Router} from "express";
 // import fs from "fs";
 // import {ProductManager} from "../dao/ProductManager.js";
-import { productsModel } from "../dao/models/products.model.js";
+import { productsModel } from "../dao/mongo/models/products.model.js";
 import { ProductController } from "../controllers/product.controller.js";
+import {checkAuthenticated, checkRole} from "../middlewares/auth.js"
 
 
 const router = Router();
@@ -21,14 +22,16 @@ const validateFields = (req,res,next)=>{
 // const productos = fs.readFileSync('./files/products.json', 'utf-8');
 // const productosParse = JSON.parse(productos);
 
+
+
 //localhost:8080/api/products   obteniendo todos los productos
 router.get("/", ProductController.getProduct);
 //localhost:8080/api/products   agregando nuevo producto 
-router.post("/", ProductController.createProduct);
+router.post("/", checkAuthenticated, checkRole(["admin"]),ProductController.createProduct);
 //localhost:8080/api/products/:pid   obteniendo producto por ID
 router.get("/:pid", ProductController.getProductById);
 //localhost:8080/api/products/:pid    Eliminando un producto 
-router.delete("/:pid", ProductController.deleteProductId);
+router.delete("/:pid",checkAuthenticated, checkRole(["admin"]),ProductController.deleteProductId);
 
 
 
