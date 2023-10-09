@@ -17,51 +17,16 @@ const router = Router();
 router.get("/carts/:cid", CartController.getCart);
 // localhost:8080/api/carts   Agrego producto al carrito
 router.post("/", CartController.createCart);
-// localhost:8080/api/carts/:cid   Veo id del carrito
+// localhost:8080/api/carts/:cid   Veo id del carrito 
 router.get("/:cid", CartController.getProductById);
 // localhost:8080/api/carts/api/carts/:cid/products/:pid  Elimina el producto seleccionado
 router.delete("/api/carts/:cid/products/:pid", CartController.deleteCartId);
+
+
 // localhost:8080/api/carts  finalizar proceso de compra con un ticket
 router.post("/:cid/purchase", TicketsController.createTicket);
+ 
 
-
-
-
-// localhost:8080/api/carts   Agrego producto al carrito
-// router.post("/", async (req,res)=>{
-//     try {
-//         const id = parseInt(req.body.id);
-//         const prodFind = await productsModel.find(id);
-//         const cartCreate = await cartsModel.insertMany(prodFind);
-//         res.json({status:"success", data:cartCreate, message:"Producto Agregado"});
-//     } catch (error) {
-//         res.json({status:"error", message:error.message});
-//     }
-// });
-
-// localhost:8080/api/carts/:cid   Veo id del carrito
-// router.get("/:cid", async (req,res)=>{
-//     const cId = parseInt(req.params.cid);
-//     const prodFind = await cartsModel.findOne({id:cId});
-//     if (!prodFind) {
-//         res.send("El producto que buscas no existe");
-//     } else {
-//         res.send(prodFind);
-//     }
-// });
-
-// localhost:8080/api/carts/carts/:cid  Veo todos los productos agregados al carrito
-// router.get("/carts/:cid", async (req,res)=>{
-//     try {
-//         // const idP = req.body;
-//         const cart = await cartsModel.find({},{title:1,description:1,price:1,stock:1,code:1,id:1,_id:0});
-//         let myuuid = uuidv4();
-//         res.json({status:"success", data:(['ID del Carrito: ' + myuuid,cart]), message:"Estos son todos los productos del carrito"});
-//     } catch (error){
-//         res.json({status:"error", message:error.message});
-//     }
-
-// });
 
 
 // localhost:8080/api/carts/:cid/product/:pid
@@ -84,17 +49,7 @@ router.post("/:cid/product/:pid", async(req,res)=>{
 });
 
 
-// localhost:8080/api/carts/api/carts/:cid/products/:pid  Elimina el producto seleccionado
-// router.delete("/api/carts/:cid/products/:pid", async (req,res)=>{
-//     try { 
-//         const cartId = parseInt(req.params.cid);
-//         const productId = parseInt(req.params.pid);
-//         await cartsModel.deleteOne({id:[cartId,productId]});
-//         res.json({status:"success", message:"Producto Eliminado"});
-//     } catch (error) {
-//         res.json({status:"error", message:error.message});
-//     }
-// });
+
 
 // localhost:8080/api/carts/api/carts/:cid  Elimina todos los productos del carrito
 router.delete("/api/carts/:cid", async (req,res)=>{
@@ -133,6 +88,55 @@ router.put("/api/carts/:cid", async (req,res)=>{
     }
 });
 
+
+
+// localhost:8080/api/carts/api/carts/:cid/products/:pid  Elimina el producto seleccionado
+// router.delete("/api/carts/:cid/products/:pid", async (req,res)=>{
+//     try { 
+//         const cartId = parseInt(req.params.cid);
+//         const productId = parseInt(req.params.pid);
+//         await cartsModel.deleteOne({id:[cartId,productId]});
+//         res.json({status:"success", message:"Producto Eliminado"});
+//     } catch (error) {
+//         res.json({status:"error", message:error.message});
+//     }
+// });
+
+// localhost:8080/api/carts   Agrego producto al carrito
+// router.post("/", async (req,res)=>{
+//     try {
+//         const id = parseInt(req.body.id);
+//         const prodFind = await productsModel.find(id);
+//         const cartCreate = await cartsModel.insertMany(prodFind);
+//         res.json({status:"success", data:cartCreate, message:"Producto Agregado"});
+//     } catch (error) {
+//         res.json({status:"error", message:error.message});
+//     }
+// });
+
+// localhost:8080/api/carts/:cid   Veo id del carrito
+// router.get("/:cid", async (req,res)=>{
+//     const cId = parseInt(req.params.cid);
+//     const prodFind = await cartsModel.findOne({id:cId});
+//     if (!prodFind) {
+//         res.send("El producto que buscas no existe");
+//     } else {
+//         res.send(prodFind);
+//     }
+// });
+
+// localhost:8080/api/carts/carts/:cid  Veo todos los productos agregados al carrito
+// router.get("/carts/:cid", async (req,res)=>{
+//     try {
+//         // const idP = req.body;
+//         const cart = await cartsModel.find({},{title:1,description:1,price:1,stock:1,code:1,id:1,_id:0});
+//         let myuuid = uuidv4();
+//         res.json({status:"success", data:(['ID del Carrito: ' + myuuid,cart]), message:"Estos son todos los productos del carrito"});
+//     } catch (error){
+//         res.json({status:"error", message:error.message});
+//     }
+
+// });
 
 
 

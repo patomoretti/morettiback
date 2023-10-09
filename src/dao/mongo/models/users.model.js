@@ -4,7 +4,7 @@ const usersCollection = "users";
 
 const userSchema = new mongoose.Schema({
     first_name:{
-        type: String,
+        type:String,
         required:true
     },
     last_name:String,
@@ -15,13 +15,19 @@ const userSchema = new mongoose.Schema({
     },
     age:Number,
     password:{
-        type:String,
+        type: String,
         required:true
     },
     cart:{
-
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"carts"
     },
-    role:["user"]
+    role:{
+        type:String,
+        required:true,
+        enum:["user", "admin"],
+        default:"user"
+    }
 });
 
 

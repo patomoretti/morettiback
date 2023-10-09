@@ -6,20 +6,22 @@ export class TicketsController{
     static async createTicket(req,res){
         try {
             const cartId = req.params.cid;
-            const cart = await CartService.getCart(cartId);
+            const cartNumber = parseInt(cartId);
+            const cart = await CartService.getCart(cartNumber);
             const productsCart = cart.products;
             let purchaseProducts = [];
             let rejectProducts = [];
-            //iteramos por cada producto del carrito
+
             for(let i=0;i<productsCart.length;i++){
                 const product = ProductService.getProduct(productsCart[i].productId);
-                if (quantity < product.stock) {
-                    
-                } else {
-                    product.push(purchaseProducts);
-                    product.stock = quantity;
+                productsCart.forEach(product => {
+                    if (product.quantity <= product.stock) {
+                        purchaseProducts.push(product)
+                        ProductService.updateProduct(product.productId ,{$inc: {stock: -product.quantity}})
+                    }
                     res.json({status:"success", message:"Producto actualizado correctamente"})
-                }
+                });
+                
             }
             const newTicket = {
                 code,
@@ -27,7 +29,7 @@ export class TicketsController{
                 amount,
                 purchaser: req.user.email,
             }
-            const ticketCreated = await TicketsService.createTicket(newTicket)
+            await TicketsService.createTicket(newTicket)
         } catch (error) {
             res.json({status:"error", message:error.message});
         }

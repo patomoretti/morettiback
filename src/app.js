@@ -9,12 +9,15 @@ import { cartRouter } from "./routes/cart.routes.js";
 import { sessionsRouter } from "./routes/sessions.routes.js";
 import { ordersRouter } from "./routes/order.routes.js";
 import { businessRouter } from "./routes/business.routes.js";
+import { messageModel } from "./dao/mongo/models/messages.model.js";
 import MongoStore from "connect-mongo";
 import session from "express-session";
 import { config } from "./config/config.js";
 import { initializePassport } from "./config/passportConfig.js";
 import passport from "passport";
 import cookieParser from "cookie-parser";
+import { errorHandler } from "./middlewares/errorHandler.js";
+
 
 
 const port = config.server.port;
@@ -54,7 +57,7 @@ app.set('views', path.join(__dirname,"/views"));
 const socketServer = new Server(httpServer);
 
 
-let messages=[];
+
 //Canal de comunicacion
 socketServer.on("connection", (socketConnected)=>{
     console.log(`Nuevo cliente conectado ${socketConnected.id}`);
@@ -69,9 +72,10 @@ socketServer.on("connection", (socketConnected)=>{
         socketConnected.emit("messageHistory", messages);
         socketConnected.broadcast.emit("newUser", msg);
     });
-    socketConnected.on("message", (data)=>{
+    socketConnected.on("message",async (data)=>{
         console.log("data", data);
-        messages.push(data);
+        const messageCreated = await messageModel.create(data);
+        const messages = await messageModel.find();
         socketServer.emit("messageHistory", messages);
     });
     
@@ -85,6 +89,7 @@ app.use("/api/sessions",sessionsRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/business", businessRouter);
 app.use(viewsRouter);
+app.use(errorHandler);
 
 
 

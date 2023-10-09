@@ -16,9 +16,18 @@ const productsSchema = new mongoose.Schema({
         type: String,
         required:true,
     },
-    price:Number,
-    code:Number,
-    stock:Number,
+    price:{
+        type: Number,
+        required:true,
+    },
+    code:{
+        type: Number,
+        required:true,
+    },
+    stock:{
+        type: Number,
+        required:true,
+    },
     category:{
         type: String,
         enum:["alimento","alimento canarios"],

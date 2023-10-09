@@ -4,21 +4,45 @@ import mongoosePaginate from "mongoose-paginate-v2";
 const cartsCollection = "carts";
 
 const cartsSchema = new mongoose.Schema({
-    title:{
-        type: String,
+    id:{
+        type:Number,
         required:true
     },
-    id:{
-        type: Number,
-        required:true,
-    },
-    description:{
-        type: String,
-        required:true,
-    },
-    price:Number,
-    code:Number,
-    stock:Number,
+    // title:{
+    //     type:String,
+    //     required:true
+    // },
+    // description:{
+    //     type:String,
+    //     required:true
+    // },
+    // price:{
+    //     type:Number,
+    //     required:true
+    // },
+    // code:{
+    //     type:Number,
+    //     required:true
+    // },
+    // stock:{
+    //     type:Number,
+    //     required:true
+    // },
+    products: {
+        type: [
+            {
+                quantity: {
+                    type: Number,
+                    default: 1
+                },
+                productId: {
+                    type: mongoose.Types.ObjectId,
+                    ref: "products"
+                }
+            }
+        ],
+        default: []
+    }
 });
 
 cartsSchema.plugin(mongoosePaginate);

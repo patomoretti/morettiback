@@ -1,13 +1,13 @@
-import { usersModel } from "../models/users.model.js";
+import {usersModel} from "../models/users.model.js";
 
 export class UsersMongo{
     constructor(){
-        this.model = usersModel();
+        this.model = usersModel;
     };
 
     async save(user){
         try {
-            const userCreated = await this.model.create(user);
+            const userCreated = await usersModel.create(user);
             return userCreated;
         } catch (error) {
             throw error;
@@ -16,36 +16,39 @@ export class UsersMongo{
 
     async getById(userId){
         try {
-            const user=await this.model.findById(userId);
+            const user = await usersModel.findById(userId).lean();
             if(user){
                 return user;
-            }else{
-                throw new Error("El usuario no existe");
+            } else{
+                console.log("El usuario no existe");
             }
         } catch (error) {
+            console.log(error.message);
             throw error;
         }
     };
 
     async getByEmail(email){
         try {
-            const user = await usersModel.find({email:email});
+            const user = await usersModel.findOne({email:email}).lean();
             if(user){
                 return user;
-            }else{
+            } else{
                 return null;
             }
         } catch (error) {
+            console.log(error.message);
             throw error;
         }
     };
 
-    async update(userId, newUserInfo){
+    async update(userId,newUserInfo){
         try {
-            const userUpdated = await this.model.findByIdAndUpdate(userId,newUserInfo,{new:true});
+            const userUpdated = await usersModel.findByIdAndUpdate(userId,newUserInfo,{new:true})
             return userUpdated;
         } catch (error) {
+            console.log(error.message);
             throw error;
         }
     };
-}
+};
