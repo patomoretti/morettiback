@@ -1,5 +1,5 @@
 import { ProductService } from "../services/product.service.js";
-
+import { logger } from "../helpers/logger.js";
 
 export class ProductController {
     static getProduct(req, res) {
@@ -10,7 +10,7 @@ export class ProductController {
     static createProduct(req, res) {
         const productInfo = req.body;
         if (!productInfo) {
-            return res.json({ status: "success", message: "Error al crear el producto" });
+            return res.json({ status: "error", message: "Error al crear el producto" });
         }
         const result = ProductService.createProduct(req.body);
         res.json({ status: "success", data: result, message: "Producto creado" });
@@ -20,7 +20,8 @@ export class ProductController {
         const pId = parseInt(req.params.pid);
         const productFind = ProductService.getProductById({ id: pId });
         if (!productFind) {
-            return res.json({ status: "success", message: "El producto que desea buscar no se ha encontrado" });
+            // return res.json({ status: "error", message: "El producto que desea buscar no se ha encontrado" });
+            logger.error("El producto que desea buscar no se ha encontrado");
         } else {
             res.send(productFind);
         };

@@ -12,8 +12,8 @@ export const config = {
         url: process.env.MONGO_URL
     },
     gitHub:{
-        clientId: "Iv1.e111e5bac9f3579b",
-        clientSecret: "81cde2f13665c7902d176cc675a2a3b445e05138",
-        callbackUrl: "http://localhost:8080/api/sessions/github-callback"
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        callbackUrl: process.env.CALLBACK_URL
     }
 }

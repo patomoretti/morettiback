@@ -18,10 +18,12 @@ export class TicketsController{
                     if (product.quantity <= product.stock) {
                         purchaseProducts.push(product)
                         ProductService.updateProduct(product.productId ,{$inc: {stock: -product.quantity}})
+                        return purchaseProducts;
+                    }else{
+                        rejectProducts.push(product);
+                        return rejectProducts;
                     }
-                    res.json({status:"success", message:"Producto actualizado correctamente"})
                 });
-                
             }
             const newTicket = {
                 code,

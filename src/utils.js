@@ -2,7 +2,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
+
+const secretToken = process.env.SECRET_TOKEN
 
 export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -17,10 +21,9 @@ export const isValidPassword = (user, password)=>{
 };
 
 
-const SECRET_TOKEN = "secretCoderToken";
 
 export const generateToken = (infoUser)=>{
-    const token = jwt.sign(infoUser,SECRET_TOKEN);
+    const token = jwt.sign(infoUser,secretToken);
     return token;
 };
 

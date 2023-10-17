@@ -13,4 +13,4 @@ export const errorHandler = (error, req, res, next) => {
         default:
             res.json({ status: "error", error: "Error desconocido" });
     }
-}     
+}      

@@ -1,37 +1,25 @@
 import {Router} from "express";
-// import fs from "fs";
-// import {ProductManager} from "../dao/ProductManager.js";
-import { productsModel } from "../dao/mongo/models/products.model.js";
 import { ProductController } from "../controllers/product.controller.js";
 import {checkAuthenticated, checkRole} from "../middlewares/auth.js"
 import { generateUser } from "../utils/helpers.js";
 
 
 const router = Router();
-// const productService = new ProductManager('products.json');
 
-const validateFields = (req,res,next)=>{
-    const productInfo = req.body;
-    if (!productInfo.title || !productInfo.description || !productInfo.code || !productInfo.price || !productInfo.stock || !productInfo.category) {
-        return res.json({status:"error", message:"Datos incompletos"});
-    } else {
-        next();
-    }
-};
-
-//leyendo productos JSON
-// const productos = fs.readFileSync('./files/products.json', 'utf-8');
-// const productosParse = JSON.parse(productos);
 
 
 //localhost:8080/api/products   obteniendo todos los productos
 router.get("/", ProductController.getProduct);
-//localhost:8080/api/products   agregando nuevo producto 
+
+//localhost:8080/api/products   agregando nuevo producto
 router.post("/", checkAuthenticated, checkRole(["admin"]), ProductController.createProduct);
+
 //localhost:8080/api/products/:pid   obteniendo producto por ID
-router.get("/:pid", checkAuthenticated, checkRole(["admin"]), ProductController.getProductById);
-//localhost:8080/api/products/:pid    Eliminando un producto 
+router.get("/:pid",checkAuthenticated, checkRole(["admin"]),ProductController.getProductById);
+
+//localhost:8080/api/products/:pid    Eliminando un producto
 router.delete("/:pid",checkAuthenticated, checkRole(["admin"]), ProductController.deleteProductId);
+
 //localhost:8080/api/products/:pid   modificando producto existente
 router.put("/:pid", checkAuthenticated, checkRole, ProductController.updateProduct);
 
@@ -51,7 +39,7 @@ router.post("/mockingproducts",checkAuthenticated, (req,res)=>{
 
 
 
-// //localhost:8080/api/products/:pid   modificando producto existente 
+// //localhost:8080/api/products/:pid   modificando producto existente
 // router.put("/:pid", async (req,res)=>{
 //     try {
 //         const idT = req.body;
@@ -80,10 +68,10 @@ router.post("/mockingproducts",checkAuthenticated, (req,res)=>{
 //     } catch (error) {
 //         res.json({status:"error", message:"Error al obtener los productos"});
 //     }
-    
+
 // });
 
-//localhost:8080/api/products   agregando nuevo producto 
+//localhost:8080/api/products   agregando nuevo producto
 // router.post ("/", async(req,res)=>{
 //     try {
 //         const productInfo = req.body;
@@ -107,7 +95,7 @@ router.post("/mockingproducts",checkAuthenticated, (req,res)=>{
 // });
 
 
-//localhost:8080/api/products/:pid   Eliminando un producto 
+//localhost:8080/api/products/:pid   Eliminando un producto
 // router.delete("/:pid", async (req,res)=>{
 //     try {
 //         const pId = parseInt(req.params.pid);

@@ -55,7 +55,7 @@ export class CartMongo{
             CustomError.createError({
                 name:"Error id cart",
                 cause:idCartErrorMsg(cartId), 
-                message:"Id no encontrado",
+                message:"No ha sido posible encontrar el ID",
                 errorCode: EError.INVALID_JSON
             });
         }

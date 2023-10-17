@@ -3,7 +3,6 @@ import { __dirname } from "../../../utils.js";
 // import fs from "fs";
 import { productsModel } from "../models/products.model.js";
 
-
 export class ProductMongo {
 
     constructor() {
@@ -52,7 +51,7 @@ export class ProductMongo {
     //actualizando producto
     async updateProduct(id) {
         try {
-            const updateProduct =  await productsModel.updateOne(id);
+            const updateProduct = await productsModel.updateOne(id);
             res.json({ status: "success", data: updateProduct, message: "Producto actualizado" });
         }
         catch (error) {

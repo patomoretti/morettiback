@@ -1,4 +1,5 @@
 import passport from "passport";
+import { logger } from "../helpers/logger.js";
 
 export const checkUserAuthenticated = (req,res,next)=>{
     console.log(req.session);
@@ -39,7 +40,8 @@ export const checkRole = (roles)=>{
         if(roles.includes(req.user.role)){
             next();
         } else{
-            res.json({status:"success", message:"No tienes permiso para este recurso"})
+            // res.json({status:"error", message:"No tienes permiso para este recurso"})
+            logger.error("No tienes permiso para este recurso")
         };
     }
 };
@@ -48,6 +50,7 @@ export const checkAuthenticated = (req,res,next)=>{
     if(req.user){
         next();
     }else{
-        res.json({status:"error", message:"No tienes permiso para este recurso"})
+        // res.json({status:"error", message:"No tienes permiso para este recurso"})
+        logger.error("No tienes permiso para este recurso")
     }
-}
+};
