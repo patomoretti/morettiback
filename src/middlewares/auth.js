@@ -41,7 +41,7 @@ export const checkRole = (roles)=>{
             next();
         } else{
             // res.json({status:"error", message:"No tienes permiso para este recurso"})
-            logger.error("No tienes permiso para este recurso")
+            logger.error("No tienes permiso para este recurso (auth.js)")
         };
     }
 };

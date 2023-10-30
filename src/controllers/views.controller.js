@@ -16,7 +16,12 @@ export class ViewsController{
         res.render("profile",{user});
     };
 
-    static renderLogout = (req,res)=>{
-        res.render("logout");
+    static renderForgot = (req,res)=>{
+        res.render("forgot-password");
+    };
+
+    static renderResetPass = (req,res)=>{
+        const token = req.query.token;
+        res.render("reset-password", {token});
     }
 }

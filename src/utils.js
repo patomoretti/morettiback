@@ -20,13 +20,17 @@ export const isValidPassword = (user, password)=>{
     return bcrypt.compareSync(password, user.password);
 };
 
-
-
 export const generateToken = (infoUser)=>{
     const token = jwt.sign(infoUser,secretToken);
     return token;
 };
 
 export const validateToken = ()=>{
-
+    try {
+        const info = jwt.verify(token,config.gmail.secretToken);
+        return info.email;
+    } catch (error) {
+        console.log("Error con el token", error.message);
+        return null;
+    }
 };

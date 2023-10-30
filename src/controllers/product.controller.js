@@ -2,23 +2,23 @@ import { ProductService } from "../services/product.service.js";
 import { logger } from "../helpers/logger.js";
 
 export class ProductController {
-    static getProduct(req, res) {
-        const product = ProductService.getProduct();
+    static getProduct = async (req, res)=>{
+        const product = await ProductService.getProduct();
         res.json({ status: "success", data: product, message: "Productos obtenidos" });
     };
 
-    static createProduct(req, res) {
+    static createProduct = async (req, res)=>{
         const productInfo = req.body;
         if (!productInfo) {
             return res.json({ status: "error", message: "Error al crear el producto" });
         }
-        const result = ProductService.createProduct(req.body);
+        const result = await ProductService.createProduct(req.body);
         res.json({ status: "success", data: result, message: "Producto creado" });
     };
 
-    static getProductById(req, res) {
+    static getProductById = async (req, res)=>{
         const pId = parseInt(req.params.pid);
-        const productFind = ProductService.getProductById({ id: pId });
+        const productFind = await ProductService.getProductById({ id: pId });
         if (!productFind) {
             // return res.json({ status: "error", message: "El producto que desea buscar no se ha encontrado" });
             logger.error("El producto que desea buscar no se ha encontrado");
@@ -27,10 +27,24 @@ export class ProductController {
         };
     };
 
-    static deleteProductId(req, res) {
-        const deleteId = parseInt(req.params.pid);
-        const result = ProductService.deleteProductId({ id: deleteId });
-        res.json({ status: "success", data: result, message: "Producto eliminado" });
+    static deleteProductId = async (req, res)=>{
+        // const deleteId = parseInt(req.params.pid);
+        // const result = await ProductService.deleteProductId({ id: deleteId });
+        // res.json({ status: "success", data: result, message: "Producto eliminado" });
+
+        try {
+            const deleteId = parseInt(req.params.pid);
+            const result = await ProductService.deleteProductId({ id: deleteId });
+
+            if ((req.user.role === "premium" && product.owner.toString() === req.user._id.toString()) || req.user === "admin") {
+                await ProductService.deleteProductId(deleteId);
+                res.json({status:"success", data:result, message:"Producto eliminado"});
+            }else{
+                res.json({status:"error", message:"No tienes permiso"});
+            }
+        } catch (error) {
+            res.json({status:"error", message:"Error al eliminar el producto, no tenes acceso"});
+        }
     };
 
     static updateProduct = async (req, res) => {

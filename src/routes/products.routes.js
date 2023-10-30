@@ -12,16 +12,18 @@ const router = Router();
 router.get("/", ProductController.getProduct);
 
 //localhost:8080/api/products   agregando nuevo producto
-router.post("/", checkAuthenticated, checkRole(["admin"]), ProductController.createProduct);
+router.post("/", checkAuthenticated, checkRole(["admin","premium"]), ProductController.createProduct);
 
 //localhost:8080/api/products/:pid   obteniendo producto por ID
 router.get("/:pid",checkAuthenticated, checkRole(["admin"]),ProductController.getProductById);
 
 //localhost:8080/api/products/:pid    Eliminando un producto
-router.delete("/:pid",checkAuthenticated, checkRole(["admin"]), ProductController.deleteProductId);
+router.delete("/:pid",checkAuthenticated, checkRole(["admin","premium"]), ProductController.deleteProductId);
 
 //localhost:8080/api/products/:pid   modificando producto existente
-router.put("/:pid", checkAuthenticated, checkRole, ProductController.updateProduct);
+router.put("/:pid", checkAuthenticated, checkRole(["admin"]), ProductController.updateProduct);
+
+
 
 
 //localhost:8080/api/products/mockingproducts

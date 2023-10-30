@@ -21,6 +21,7 @@ export class ProductService {
     static updateProduct = async (id) => {
         return productDao.updateProduct(id)
     }
+    
     // static fakerProducts = async ()=>{
     //     return productDao.getFakerProducts();
     // };

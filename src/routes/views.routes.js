@@ -21,8 +21,12 @@ router.get("/perfil",ViewsController.renderProfile);
 router.get("/cambio-password", (req,res)=>{
     res.render("changePassword");
 });
+//localhost:8080/forgot-password
+router.get("/forgot-password", ViewsController.renderForgot);
+//localhost:8080/resetpassword
+router.get("/resetpassword", ViewsController.renderResetPass);
 
-// router.get("/logout", ViewsController.renderLogout);
+
 
 
 

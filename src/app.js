@@ -21,16 +21,16 @@ import { initializePassport } from "./config/passportConfig.js";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./middlewares/errorHandler.js";
-import { addLogger } from "./helpers/logger.js";
+// import { addLogger } from "./helpers/logger.js";
 
 
 
 const port = config.server.port;
 const app = express();
-const logger = addLogger();
+// const logger = addLogger();
 
 //guardardando servidor http en una variable
-const httpServer = app.listen(port,()=>logger.info(`Servidor activo en el puerto ${port}`));
+const httpServer = app.listen(port,()=>console.log(`Servidor activo en el puerto ${port}`));
  
 //configuracion de sesiones
 app.use(session({
@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(addLogger);
+// app.use(addLogger);
 
 
 //configuracion handlebars
