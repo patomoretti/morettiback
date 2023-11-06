@@ -4,15 +4,6 @@ import { __dirname } from "./utils.js";
 import path from "path";
 import { Server } from "socket.io";
 
-//rutas
-import { viewsRouter } from "./routes/views.routes.js";
-import { productsRouter } from "./routes/products.routes.js";
-import { cartRouter } from "./routes/cart.routes.js";
-import { sessionsRouter } from "./routes/sessions.routes.js";
-import { ordersRouter } from "./routes/order.routes.js";
-import { businessRouter } from "./routes/business.routes.js";
-import { loggerRouter } from "./routes/logger.routes.js";
-
 import { messageModel } from "./dao/mongo/models/messages.model.js";
 import MongoStore from "connect-mongo";
 import session from "express-session";
@@ -22,6 +13,17 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./middlewares/errorHandler.js";
 // import { addLogger } from "./helpers/logger.js";
+import { swaggerSpecs } from "./config/swagger.config.js";
+import swaggerUI from "swagger-ui-express";
+
+//rutas
+import { viewsRouter } from "./routes/views.routes.js";
+import { productsRouter } from "./routes/products.routes.js";
+import { cartRouter } from "./routes/cart.routes.js";
+import { sessionsRouter } from "./routes/sessions.routes.js";
+import { ordersRouter } from "./routes/order.routes.js";
+import { businessRouter } from "./routes/business.routes.js";
+import { loggerRouter } from "./routes/logger.routes.js";
 
 
 
@@ -86,7 +88,7 @@ socketServer.on("connection", (socketConnected)=>{
     });
     
 });
-
+ 
 
 //Rutas
 app.use("/api/products", productsRouter);
@@ -97,6 +99,7 @@ app.use("/api/business", businessRouter);
 app.use("/loggerTest", loggerRouter);
 app.use(viewsRouter);
 app.use(errorHandler);
+app.use("api/docs", swaggerUI.serve,swaggerUI.setup(swaggerSpecs));
 
 
 
