@@ -101,5 +101,6 @@ app.use(viewsRouter);
 app.use(errorHandler);
 app.use("api/docs", swaggerUI.serve,swaggerUI.setup(swaggerSpecs));
 
+export {app};
 
 

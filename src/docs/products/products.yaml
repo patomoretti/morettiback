@@ -113,13 +113,13 @@ components:
         code: 3156423
         stock: 200
         category: alimento
-    {
-      "_id":"", 
-      "title":"",
-      "id":"",
-      "description":"",
-      ...
-    }
+          {
+            "_id":"", 
+            "title":"",
+            "id":"",
+            "description":"",
+            ...
+          }
   requestBodies:
     UpdateProduct:
       type: object

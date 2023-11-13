@@ -1,12 +1,9 @@
 import { __dirname } from "../../../utils.js";
-// import path from "path";
-// import fs from "fs";
 import { productsModel } from "../models/products.model.js";
 
 export class ProductMongo {
 
     constructor() {
-        // this.path = path.join(__dirname, `/files/${fileName}`);
         this.path = productsModel();
     };
 
