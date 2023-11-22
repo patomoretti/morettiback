@@ -2,6 +2,7 @@ import { Router } from "express";
 import { usersDao } from "../dao/index.js";
 import passport from "passport";
 import { SessionsController } from "../controllers/sessions.controller.js";
+import { UsersController } from "../controllers/users.controller.js";
 import { checkRole } from "../middlewares/auth.js";
 
 const router = Router();
@@ -24,7 +25,7 @@ router.post("/login", passport.authenticate("loginStrategy", {
 router.get("/fail-login", SessionsController.failLogin);
 
 // localhost:8080/premium/:uid
-router.post("/premium/:uid",checkRole(["admin"]), SessionsController.modifyRole);
+router.post("/premium/:uid",checkRole(["admin"]), UsersController.modifyRole);
 
 
 

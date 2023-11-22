@@ -24,6 +24,7 @@ import { sessionsRouter } from "./routes/sessions.routes.js";
 import { ordersRouter } from "./routes/order.routes.js";
 import { businessRouter } from "./routes/business.routes.js";
 import { loggerRouter } from "./routes/logger.routes.js";
+import { usersRouter } from "./routes/users.routes.js";
 
 
 
@@ -96,6 +97,7 @@ app.use("/api/carts", cartRouter);
 app.use("/api/sessions",sessionsRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/business", businessRouter);
+app.use("/api/users", usersRouter);
 app.use("/loggerTest", loggerRouter);
 app.use(viewsRouter);
 app.use(errorHandler);

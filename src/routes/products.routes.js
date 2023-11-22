@@ -2,6 +2,7 @@ import {Router} from "express";
 import { ProductController } from "../controllers/product.controller.js";
 import {checkAuthenticated, checkRole} from "../middlewares/auth.js"
 import { generateUser } from "../utils/helpers.js";
+import { uploadProduct } from "../utils.js";
 
 
 const router = Router();
@@ -12,7 +13,7 @@ const router = Router();
 router.get("/", ProductController.getProduct);
 
 //localhost:8080/api/products   agregando nuevo producto
-router.post("/", checkAuthenticated, checkRole(["admin","premium"]), ProductController.createProduct);
+router.post("/", checkAuthenticated, checkRole(["admin","premium"]), uploadProduct.single("thumbnail"), ProductController.createProduct);
 
 //localhost:8080/api/products/:pid   obteniendo producto por ID
 router.get("/:pid",checkAuthenticated, checkRole(["admin"]),ProductController.getProductById);

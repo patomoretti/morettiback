@@ -53,24 +53,4 @@ export class SessionsController {
             res.send("No se pudo restablecer la contraseña, volver a intentarlo <a href='forgot-password'></a>")
         }
     };
-
-    static modifyRole = async (req,res)=>{
-        try {
-            const userId = req.params.uid;
-            const user = await UsersService.getUserById(userId);
-            const userRole = user.role;
-            if (userRole === "user") {
-                user.role = "premium";
-            } else if(userRole === "premium"){
-                user.role = "user"
-            } else{
-                res.json({status:"error", message:"No se puede cambiar el rol de este usuario"});
-            };
-            await UsersService.updateUser(user._id,user);
-            res.json({status:"success", message:`El nuevo rol del usuario es ${user.role}`});
-        } catch (error) {
-            res.json({status:"error", message:error.message});
-        }
-    }
-
 };
