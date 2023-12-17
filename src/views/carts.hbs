@@ -1,14 +1,15 @@
-<h1>Carrito</h1>
+<h1>Finalizando la compra</h1>
 
 <a class="cartproducts" method="get" href="/api/carts/carts/:cid">
     <p name="title">Nombre: {{title}}</p>
+    <p name="id">ID: {{id}}</p>
     <p name="description">Descripcion: {{description}}</p>
-    <p name="id">Id: {{id}}</p>
-    <p name="stock">Stock: {{stock}}</p>
-    <p name="code">Codigo: {{code}}</p>
     <p name="price">Precio: {{price}}</p>
+    <p name="code">Codigo: {{code}}</p>
+    <p name="stock">Stock: {{stock}}</p>
+    <p name="category">Categoria: {{category}}</p>
 </a>
-
+ 
 
 <script src="socket.io/socket.io.js"></script>
 <script src="/js/cart.js"></script>

@@ -38,10 +38,12 @@ socketClient.on("arrayProductos", (arrayProd)=>{
         elementContainer=elementContainer+
         `<ol>
         <li>Nombre: ${title} </li>
+        <li>ID: ${id} </li>
         <li>Descripcion: ${description} </li>
-        <li>Stock: ${stock} </li>
-        <li>Codigo: ${code} </li>
         <li>Precio: ${price} </li>
+        <li>Codigo: ${code} </li>
+        <li>Stock: ${stock} </li>
+        <li>Categoria: ${category} </li>
         </ol>`
     });
 });

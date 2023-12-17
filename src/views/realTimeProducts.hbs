@@ -7,25 +7,30 @@
         <br/><br/>
         <input type="text" placeholder="Descripcion" name="description"/>
         <br/><br/>
-        <input type="text" placeholder="Stock" name="stock"/>
+        <input type="text" placeholder="Precio" name="price"/>
         <br/><br/>
         <input type="text" placeholder="Codigo" name="code"/>
         <br/><br/>
-        <input type="text" placeholder="Precio" name="price"/>
+        <input type="text" placeholder="Stock" name="stock"/>
         <br/><br/>
+        <input type="text" placeholder="Categoria" name="category"/>
+        <br/><br/>
+        
         <button type="submit">Agregar al carrito</button>
 
     </form>
 
     <div class="productsadd">
         <h3>Productos agregados</h3>
-        <div method="get" action="/realtimeproducts">
-            <h5>Nombre: {{title}}</h5>
+        <form method="get" action="/realtimeproducts">
+            <h5>Nombre: {{product.title}}</h5>
+            <h5>Id: {{product.id}}</h5>
             <h5>Descripcion: {{description}}</h5>
-            <h5>Stock: {{stock}}</h5>
-            <h5>Codigo: {{code}}</h5>
             <h5>Precio: {{price}}</h5>
-        </div>
+            <h5>Codigo: {{code}}</h5>
+            <h5>Stock: {{stock}}</h5>
+            <h5>Categoria: {{product.category}}</h5>
+        </form>
     </div>
 
 </div>

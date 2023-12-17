@@ -16,4 +16,12 @@ export class UsersService{
     static updateUser = async(userId,userInfo)=>{
         return await usersDao.update(userId,userInfo);
     }
+
+    static getAllUsers = async()=>{
+        return await usersDao.getAll();
+    }
+
+    static deleteUser = async()=>{
+        return await usersDao.deleteUser();
+    }
 };

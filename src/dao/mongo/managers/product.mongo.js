@@ -16,7 +16,7 @@ export class ProductMongo {
                     { price: { $gt: 10 } },
                     { limit: 5, page: 1 }
                 );
-                console.log("Paginacion", comida);
+                // console.log("Paginacion", comida);
             };
             productoPaginate();
             return productoo;

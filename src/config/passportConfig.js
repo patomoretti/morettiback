@@ -26,10 +26,12 @@ export const initializePassport = () => {
                 };
                 const newUser = {
                     first_name: first_name,
+                    last_name: last_name,
+                    age: age,
                     email: username,
                     password: createHash(password),
                     role: role,
-                    avatar:req.file.filename
+                    // avatar:req.file.filename
                 };
                 const userCreated = await UsersService.saveUser(newUser);
                 return done(null, userCreated)
@@ -101,7 +103,7 @@ export const initializePassport = () => {
         async (accesstoken, refreshToken, profile, done) => {
             try {
                 console.log("profile", profile);
-                const user = await usersDao.getByEmail(profile.username);
+                const user = await UsersService.getUserByEmail(profile.username);
                 if (!user) {
                     const newUser = {
                         first_name: '',

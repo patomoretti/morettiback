@@ -1,15 +1,16 @@
 <h1>Productos</h1>
 
-
-<div class="products" method="get">
+<form class="products" method="get" action="/products">
     <p name="title">Nombre: {{title}}</p>
+    <p name="id">Id: {{id}}</p>
     <p name="description">Descripcion: {{description}}</p>
-    <p name="stock">Stock: {{stock}}</p>
-    <p name="code">Codigo: {{code}}</p>
-    <p name="price">Precio: {{price}}</p>
+    <p name="price">Precio: {{product.price}}</p>
+    <p name="code">Codigo: {{product.code}}</p>
+    <p name="stock">Stock: {{product.stock}}</p>
+    <p name="category">Categoria: {{product.category}}</p>
     <button type="submit" name="addCart">Agregar al carrito</button>
-</div>
+</form>
 
 
 <script src="socket.io/socket.io.js"></script>
-<script src="/js/products.js"></script>
+<script src="/js/products.js"></script> 

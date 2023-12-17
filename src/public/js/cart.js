@@ -3,12 +3,13 @@ const socketClient = io();
 socketClient.emit("mensaje", "Esta en Carts");
 
 const title=document.getElementById('title');
+const id=document.getElementById('id');
 const description=document.getElementById('description');
 const code=document.getElementById('code');
 const price=document.getElementById('price');
 const stock=document.getElementById('stock');
 
-
+ 
 const productsadd=document.getElementById('productsadd');
 const idDelete=document.getElementById('idDelete');
 

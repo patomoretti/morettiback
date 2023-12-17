@@ -6,7 +6,7 @@ const updateProducts = async()=>{
     try {
         await mongoose.connect(config.mongo.url);
         console.log("base de datos conectada");
-        const adminId= "653d0448608237a163f05693";
+        const adminId= "65738d41393476430e063945";
         const result = await productsModel.updateMany({},{$set:{owner:adminId}});
         console.log(result);
     } catch (error) {

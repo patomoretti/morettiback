@@ -1,5 +1,5 @@
 import express from "express";
-import {engine} from "express-handlebars";
+import { engine } from "express-handlebars";
 import { __dirname } from "./utils.js";
 import path from "path";
 import { Server } from "socket.io";
@@ -11,10 +11,12 @@ import { config } from "./config/config.js";
 import { initializePassport } from "./config/passportConfig.js";
 import passport from "passport";
 import cookieParser from "cookie-parser";
-import { errorHandler } from "./middlewares/errorHandler.js";
+import { gmailTransporter } from "./config/gmail.config.js";
+// import { errorHandler } from "./middlewares/errorHandler.js";
 // import { addLogger } from "./helpers/logger.js";
 import { swaggerSpecs } from "./config/swagger.config.js";
 import swaggerUI from "swagger-ui-express";
+import { UsersService } from "./services/user.service.js";
 
 //rutas
 import { viewsRouter } from "./routes/views.routes.js";
@@ -25,6 +27,8 @@ import { ordersRouter } from "./routes/order.routes.js";
 import { businessRouter } from "./routes/business.routes.js";
 import { loggerRouter } from "./routes/logger.routes.js";
 import { usersRouter } from "./routes/users.routes.js";
+import { UsersMongo } from "./dao/mongo/managers/user.mongo.js";
+import { ProductService } from "./services/product.service.js";
 
 
 
@@ -33,8 +37,8 @@ const app = express();
 // const logger = addLogger();
 
 //guardardando servidor http en una variable
-const httpServer = app.listen(port,()=>console.log(`Servidor activo en el puerto ${port}`));
- 
+const httpServer = app.listen(port, () => console.log(`Servidor activo en el puerto ${port}`));
+
 //configuracion de sesiones
 app.use(session({
     store: MongoStore.create({
@@ -42,7 +46,7 @@ app.use(session({
     }),
     secret: config.server.secretSession,
     resave: true,
-    saveUninitialized:true
+    saveUninitialized: true
 }));
 
 //configuracion de passport
@@ -59,50 +63,79 @@ app.use(cookieParser());
 
 
 //configuracion handlebars
-app.engine('.hbs', engine({extname: '.hbs'}));
+app.engine('.hbs', engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
-app.set('views', path.join(__dirname,"/views"));
+app.set('views', path.join(__dirname, "/views"));
 
 
 //servidor websocket
 const socketServer = new Server(httpServer);
 
 //Canal de comunicacion
-socketServer.on("connection", (socketConnected)=>{
+socketServer.on("connection", (socketConnected) => {
     console.log(`Nuevo cliente conectado ${socketConnected.id}`);
 
     //Ubicacion del usuario
-    socketConnected.on("mensaje", (data)=>{
+    socketConnected.on("mensaje", (data) => {
         console.log(`Ubicacion del usuario: ${data}`);
     })
 
     //Chat messages
-    socketConnected.on("authenticated", (msg)=>{
+    socketConnected.on("authenticated", (msg) => {
         socketConnected.emit("messageHistory", messages);
         socketConnected.broadcast.emit("newUser", msg);
     });
-    socketConnected.on("message",async (data)=>{
+    socketConnected.on("message", async (data) => {
         console.log("data", data);
         const messageCreated = await messageModel.create(data);
         const messages = await messageModel.find();
         socketServer.emit("messageHistory", messages);
     });
-    
+
+    //Productos
+    socketConnected.on("ListaProductos", async (product)=>{
+        const products = await ProductService.getProduct(product);
+        socketConnected.emit("List", products);
+    });
+
+
+    //User Admin
+    // socketConnected.on("userAdmin", async (user)=>{
+    //     console.log("userDelete", user);
+    //     const userDel = await UsersMongo.deleteUser();
+    //     console.log("Usuario eliminado por el Administrador", userDel);
+    // });
 });
- 
+
 
 //Rutas
+// app.get("/mail", async (req, res) => {
+//     const emailTemplate =
+//         `<div>
+//                     <h1>Hola Gordooo! Jajajajaja</h1>
+                    
+//                     </div>`
+//         ;
+
+//     const info = await gmailTransporter.sendMail({
+//         from: "Moretti's Company",
+//         to: "patriciomoretti@hotmail.com",
+//         subject: "Te amo",
+//         html: emailTemplate
+//     });
+//     await UsersService.deleteUser({email:"kiimbusanchez@gmail.com"});
+// });
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
-app.use("/api/sessions",sessionsRouter);
+app.use("/api/sessions", sessionsRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/business", businessRouter);
 app.use("/api/users", usersRouter);
 app.use("/loggerTest", loggerRouter);
 app.use(viewsRouter);
-app.use(errorHandler);
-app.use("api/docs", swaggerUI.serve,swaggerUI.setup(swaggerSpecs));
+// app.use(errorHandler);
+app.use("api/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
 
-export {app};
+export { app };
 
 

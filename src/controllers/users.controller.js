@@ -1,5 +1,7 @@
 import { UsersService } from "../services/user.service.js";
-
+import { gmailTransporter } from "../config/gmail.config.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 export class UsersController {
     static modifyRole = async (req, res) => {
@@ -18,10 +20,10 @@ export class UsersController {
                 };
                 await UsersService.updateUser(user._id, user);
                 res.json({ status: "success", message: `El nuevo rol del usuario es ${user.role}` });
-            } else{
+            } else {
                 res.json({ status: "error", message: "El usuario no ha cargado todos los documentos" });
             }
-            
+
         } catch (error) {
             res.json({ status: "error", message: error.message });
         }
@@ -60,4 +62,67 @@ export class UsersController {
         }
     };
 
+    static getAllUsers = async (req, res) => {
+        const user = await UsersService.getAllUsers();
+        res.json({ status: "success", data: user, message: "Todos los usuarios han sido obtenidos correctamente" });
+    };
+
+
+    //elimina a un usuario en un tiempo determinado de no conexion
+    static deleteUser = async (req, res) => {
+        try {
+            const user = await UsersService.getUserByEmail();
+            const lastConnect = user.last_connection;
+            const minute = new Date(undefined,undefined,undefined,undefined,5000);
+            if (!lastConnect === minute) {
+                const emailTemplate =
+                    `<div>
+                        <h1>Usuario eliminado</h1>
+                        <p>Su usuario ha sido eliminado por inactividad. Puede volver a crear una cuenta haciendo click en el siguiente enlace de abajo </p>
+                        <a href="http://localhost:8080/signup">Crear cuenta</a>
+                    </div>`
+                ;
+
+                const info = await gmailTransporter.sendMail({
+                    from: "Ecommerce Moretti",
+                    to: user.email,
+                    subject: "Eliminado por inactividad",
+                    html: emailTemplate
+                });
+                res.json({ status: "success", data: info, message: `Correo enviado a ${user.email} exitosamente` });
+                await UsersService.deleteUser();
+            }
+
+        } catch (error) {
+            res.json({ status: "error", message: "El correo no se pudo enviar" });
+        }
+
+    };
+
 };
+
+
+setInterval(function () {
+    const user = UsersService.getUserByEmail();
+    const lastConnect = user.last_connection;
+    const minute = 1 * 60 * 1000;
+    if (lastConnect + minute) {
+        const emailTemplate =
+            `<div>
+            <h1>Usuario eliminado</h1>
+            <p>Su usuario ha sido eliminado por inactividad. Puede volver a crear una cuenta haciendo click en el siguiente enlace de abajo </p>
+            <a href="http://localhost:8080/signup">Crear cuenta</a>
+        </div>`
+            ;
+
+        const info = gmailTransporter.sendMail({
+            from: "Ecommerce Moretti",
+            to: user.email,
+            subject: "Eliminado por inactividad",
+            html: emailTemplate
+        });
+        res.json({ status: "success", data: info, message: `Correo enviado a ${user.email} exitosamente` });
+        UsersService.deleteUser();
+    }
+
+}, 5000);

@@ -5,9 +5,9 @@ export class UsersMongo{
         this.model = usersModel;
     };
 
-    async save(user){
+    async save(newUser){
         try {
-            const userCreated = await usersModel.create(user);
+            const userCreated = await usersModel.create(newUser);
             return userCreated;
         } catch (error) {
             throw error;
@@ -48,6 +48,24 @@ export class UsersMongo{
             return userUpdated;
         } catch (error) {
             console.log(error.message);
+            throw error;
+        }
+    };
+
+    async getAll(){
+        try {
+            const user = await usersModel.find({}, {first_name:1, email:1, role:1});
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    async deleteUser(){
+        try {
+            const userCreated = await usersModel.deleteMany();
+            return userCreated;
+        } catch (error) {
             throw error;
         }
     };

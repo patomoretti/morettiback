@@ -1,16 +1,36 @@
 <h1>Pagina de perfil</h1>
 
-<h2>Bienvenido, {{user.email}}</h2>
-
-{{#if isAdmin}}
- <h3>Perfil</h3>
+<h2>Bienvenido, {{user.first_name}}</h2>
+{{!-- //isAdmin --}}
+{{#if isAdmin}}  
+ 
     {{#each}}
+        <h3>Perfil</h3>
         <p>Nombre: {{user.first_name}}</p>
         <p>Apellido: {{user.last_name}}</p>
-        <p>Edad: {{user.age}}</p>
+        <p>Role: {{user.role}}</p>
+        <br></br>
+        <br></br>
+
+        <h3>Modificar o eliminar un perfil</h3>
+
+        <h4>Modificar Role</h4>
+        <form method="post" action="/api/users/modify-role">
+            <button name="userModify"> {{user.first_name}}</button>
+        </form>
+        <br></br>
+
+        <h4>Eliminar un usuario</h4>
+        <form method="post" action="/api/users/user-deleted">
+           <button name="userDelete">Usuario: {{user.first_name}}</button> 
+        </form>
+        
     {{/each}}
+    
 {{else}}
-    <h3>No tienes permiso para ver este contenido. Tu rol es {{user.role}}</h3>
+    <h3>Tu rol es {{user.role}}</h3>
+    <h4>Para tener acceso a mas herramientas, tu rol tiene que ser Administrador</h4>
 {{/if}}
 
-
+<script src="socket.io/socket.io.js"></script>
+<script src="/js/userAdmin.js"></script>

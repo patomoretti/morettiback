@@ -2,6 +2,7 @@ import { UsersService } from "../services/user.service.js";
 
 export class SessionsController {
     static redirectLogin = async (req, res) => {
+        await UsersService.saveUser();
         res.redirect("/login");
     };
 

@@ -4,7 +4,8 @@ export class UsersDto{
         this.last_name = user.last_name;
         this.fullName = `${user.first_name} ${user.last_name}`;
         this.age = user.age;
-        this.email = user.email
+        this.email = user.email;
+        this.role = user.role;
     };  
 };
  

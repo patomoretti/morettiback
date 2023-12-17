@@ -22,6 +22,6 @@ export class ViewsController{
 
     static renderResetPass = (req,res)=>{
         const token = req.query.token;
-        res.render("reset-password", {token});
-    }
+        res.render("resetpassword", {token});
+    };
 }
